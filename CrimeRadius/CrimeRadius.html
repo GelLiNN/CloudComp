@@ -29,6 +29,7 @@
     console.log(histogram);
 
     var gmap;
+    var heatMapData = [];
     // used immediately by Google Maps API to start up the map
     // on your application after verifying your API key
     function initMap() {
@@ -126,25 +127,27 @@
                 console.log(map);
 
                 $(data).each(function(index, value) {
-                    //console.log(index);
-                    //console.log(value.event_clearance_date);
                     var crime_lat = value.latitude;
                     var crime_long = value.longitude;
+                    /* Keep this code if you want to revert to pinpoints
                     var marker = new google.maps.Marker({
                         position: new google.maps.LatLng(crime_lat, crime_long),
                         map: gmap,
                         title: 'test',
                     });
-                    //instead of logging the date we could also
-                    //parse the lat long from the JSON and plot it
-                    //on Google maps using geocoding
+                    */
+                    heatMapData.push({location: new google.maps.LatLng(crime_lat, crime_long), weight: 0.5});
                 });
+                var heatmap = new google.maps.visualization.HeatmapLayer({
+                  data: heatMapData
+                });
+                // set the heatmap after the request has been fulfilled
+                heatmap.setMap(gmap);
 
             });
         }
     </script>
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDmoTS5rTt7cPjG3cJ38UpcAy7gDeZPSuI&callback=initMap" async defer></script>
-    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDmoTS5rTt7cPjG3cJ38UpcAy7gDeZPSuI&libraries=visualization"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDmoTS5rTt7cPjG3cJ38UpcAy7gDeZPSuI&callback=initMap&libraries=visualization" async defer></script>
 
 </body>
 </html>
