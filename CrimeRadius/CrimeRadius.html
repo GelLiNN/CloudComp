@@ -7,19 +7,23 @@
 <body>
     <div id="main">
         <h1>Seattle Crime Detector</h1>
-        <input type="text" id="lat" size="20" placeholder="Latitude" />
-        <input type="text" id="long" size="20" placeholder="Longitude" />
-        <button onclick="setCurrentLocation()">Use Browser Lat/Long!</button>
+        <input type="text" id="lat" size="20" placeholder="Latitude" class="control"/>
+        <input type="text" id="long" size="20" placeholder="Longitude" class="control"/>
+        <button onclick="setCurrentLocation()" class="control">Use Browser Lat/Long!</button>
         <br />
-        <input type="text" id="address" size="20" placeholder="Address" />
-        <button onclick="geocodeAddress()">Geocode your Address!</button>
+        <input type="text" id="address" size="20" placeholder="Address" class="control"/>
+        <button onclick="geocodeAddress()" class="control">Geocode your Address!</button>
         <br />
-        <input type="text" id="rad" size="20" placeholder="Radius (Miles)" />
-        <input type="text" id="limit" size="20" placeholder="Results Limit (int)" />
-        <input type="submit" value="Get Crime!" onclick="makeJsonRequest()"></input>
-        <div id="crime_map" style="height: 500px; width: 500px;"></div>
-        <p id="results"></p>
+        <input type="text" id="rad" size="20" placeholder="Radius (Miles)" class="control"/>
+        <input type="text" id="limit" size="20" placeholder="Results Limit (int)" class="control"/>
+        <button onclick="makeJsonRequest()" class="control">Get Crime!</button>
+        <br />
+        <input id="pins" type="radio" name="map_type" value="pins" class="control"> Pinpoints</input>
+        <input id="heatmap" type="radio" name="map_type" value="heatmap" class="control" checked> Heatmap</input>
+        <div id="crime_map" style="height: 600px; width: 600px;"></div>
+        <div id="count" class="control"></div>
     </div>
+    <div id="results"></div>
     <script src="https://code.jquery.com/jquery-2.1.4.js" type="text/javascript"></script>
     <script src="https://d3js.org/d3.v3.min.js" type="text/javascript"></script>
     <script type="text/javascript">
@@ -30,6 +34,8 @@
 
     var gmap;
     var heatMapData = [];
+    var crime_count = 0;
+
     // used immediately by Google Maps API to start up the map
     // on your application after verifying your API key
     function initMap() {
@@ -81,10 +87,18 @@
         }
     }
 
-    //
+    //callback function for navigator object
     function useBrowserPosition(position) {
-        document.getElementById('lat').value = position.coords.latitude;
-        document.getElementById('long').value = position.coords.longitude;
+        var browser_lat = position.coords.latitude;
+        var browser_long = position.coords.longitude;
+        var browser_loc = new google.maps.LatLng(browser_lat, browser_long);
+        gmap.setCenter(browser_loc);
+        var marker = new google.maps.Marker({
+            map: gmap,
+            position: browser_loc
+        });
+        document.getElementById('lat').value = browser_lat;
+        document.getElementById('long').value = browser_long;
     }
 
     // Called from "Get Crime!" button
@@ -110,10 +124,8 @@
                         + input_lat + ", " + input_long + ", "+ radiusMeters + ")"
                 }
             }).done(function(data) {
-                alert("Retrieved " + data.length + " records from the dataset!");
-                //console.log(data);
                 console.log(data);
-                document.getElementById('results').innerHTML = "JSON BLOB\n\n\n"
+                document.getElementById('results').innerHTML = "<h2>JSON BLOB</h2>"
                     + JSON.stringify(data);
 
                 // Map the dates to a new array to make a histogram
@@ -129,21 +141,30 @@
                 $(data).each(function(index, value) {
                     var crime_lat = value.latitude;
                     var crime_long = value.longitude;
-                    /* Keep this code if you want to revert to pinpoints
-                    var marker = new google.maps.Marker({
-                        position: new google.maps.LatLng(crime_lat, crime_long),
-                        map: gmap,
-                        title: 'test',
-                    });
-                    */
-                    heatMapData.push({location: new google.maps.LatLng(crime_lat, crime_long), weight: 0.5});
+                    // If you want to use pinpoints
+                    if (document.getElementById('pins').checked) {
+                        var marker = new google.maps.Marker({
+                            position: new google.maps.LatLng(crime_lat, crime_long),
+                            map: gmap,
+                            title: 'test',
+                        });
+                    } else if (document.getElementById('heatmap').checked) {
+                        heatMapData.push({location: new google.maps.LatLng(crime_lat, crime_long), weight: 0.7});
+                    }
+                    crime_count++;
                 });
-                var heatmap = new google.maps.visualization.HeatmapLayer({
-                  data: heatMapData
-                });
-                // set the heatmap after the request has been fulfilled
-                heatmap.setMap(gmap);
 
+                // print new crime count to page
+                document.getElementById('count').innerHTML = "Total Crimes: "
+                    + crime_count;
+
+                if (document.getElementById('heatmap').checked) {
+                    var heatmap = new google.maps.visualization.HeatmapLayer({
+                      data: heatMapData
+                    });
+                    // set the heatmap after the request has been fulfilled
+                    heatmap.setMap(gmap);
+                }
             });
         }
     </script>

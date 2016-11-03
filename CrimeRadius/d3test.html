@@ -5,7 +5,7 @@
     <script type="text/javascript" src="http://mbostock.github.com/d3/d3.js"></script>
 </head>
 <body>
-    <div id="main"></div>
+    <div id="viz"></div>
     <script type="text/javascript">
 
     $.ajax({
@@ -26,6 +26,7 @@
         // Map the dates to a new array to make a histogram
         var map = data.map(function(index) {
             if (index.event_clearance_description != null) {
+
                 return index.event_clearance_description;
             } else {
                 return new Date();
@@ -33,7 +34,6 @@
         });
         console.log(map);
 
-        var count = 0;
         $(data).each(function(index, value) {
             //console.log(index);
             //console.log(value.event_clearance_date);
@@ -46,25 +46,24 @@
                 title: 'test',
             });
             */
-            count++;
-            var newCircle = document.createElement("span");
-            newCircle.id = "viz" + count;
-            document.getElementById("main").appendChild(newCircle);
+            //instead of logging the date we could also
+            //parse the lat long from the JSON and plot it
+            //on Google maps using geocoding
+        });
 
-            var sampleSVG = d3.select("#viz" + count)
-                .append("svg")
-                .attr("width", 100)
-                .attr("height", 100);
+        var sampleSVG = d3.select("#viz")
+            .append("svg")
+            .attr("width", 100)
+            .attr("height", 100);
 
-            sampleSVG.append("circle")
-                .style("stroke", "gray")
-                .style("fill", "white")
-                .attr("r", 40)
-                .attr("cx", 50)
-                .attr("cy", 50)
-                .on("mouseover", function(){d3.select(this).style("fill", "aliceblue");})
-                .on("mouseout", function(){d3.select(this).style("fill", "white");
-            });
+        sampleSVG.append("circle")
+            .style("stroke", "gray")
+            .style("fill", "white")
+            .attr("r", 40)
+            .attr("cx", 50)
+            .attr("cy", 50)
+            .on("mouseover", function(){d3.select(this).style("fill", "aliceblue");})
+            .on("mouseout", function(){d3.select(this).style("fill", "white");
         });
     });
 

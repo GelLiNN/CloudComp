@@ -1,16 +1,43 @@
 body {
     background-color: #4286f4;
+    font-family: Verdana, serif;
+}
+
+#main {
+    width: 80%;
+    background-color: #25529b;
+    padding: 15px;
+    border-radius: 15px;
+    border: 2px dotted black;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
 }
 
 #crime_map {
     margin-left: auto;
     margin-right: auto;
     margin-top: 30px;
+    margin-bottom: 15px;
 }
 
-#main {
-    width: 70%;
+.control {
+    font-size: 14pt;
+    font-family: Verdana, serif;
+    margin-top: 10px;
+    margin-right: 10px;
+}
+
+#results {
+    width: 80%;
+    color: white;
+    background-color: red;
+    padding: 15px;
+    border-radius: 15px;
+    border: 5px dotted black;
+    margin-top: 20px;
     margin-left: auto;
     margin-right: auto;
     text-align: center;
+    overflow: hidden;
 }
