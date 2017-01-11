@@ -5,7 +5,9 @@ var http = require('http');
 var options = {
   host: 'api.glassdoor.com',
   path: '/api/api.htm?t.p=114236&t.k=j1ERnurd9SI&userip=0.0.0.0'
-    + '&useragent=&format=json&v=1&action=jobs-stats&l=Seattle&returnEmployers=true&admLevelRequested=1'
+    + '&useragent=&format=json&v=1&action=jobs-stats'
+    + '&l=Seattle&returnJobTitles=true&returnCities=true&returnEmployers=true'
+    + '&admLevelRequested=2'
 };
 
 callback = function(response) {
