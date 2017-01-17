@@ -3,12 +3,16 @@
 // docs https://ads.indeed.com/jobroll/xmlfeed
 var http = require('http');
 var parseString = require('xml2js').parseString;
+var rjsonSearch = require('rjson-search');
+
+// Zipcode is the key param for query
+var zipcode = "98105";
 
 var options = {
     host: 'api.indeed.com',
     path: '/ads/apisearch?publisher=9876703242051712'
         + '&q='
-        + '&l=98105'
+        + '&l=' + zipcode
         + '&sort=&radius=1&st=&jt=&start='
         + '&limit=1000'
         + '&fromage=&filter=&latlong=1&co=us'
@@ -37,7 +41,9 @@ callback = function(response) {
         var xml = str;
         parseString(xml, function (err, result) {
             var JSONObject = result;
-            console.log(JSON.stringify(result));
+            var totalRes = JSONObject.response.totalresults[0];
+            console.log("Total Jobs in zipcode " + zipcode + ": " + totalRes);
+            // Can also possibly show a map (data structure) of companies/openings
         });
     });
 }
