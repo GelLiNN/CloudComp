@@ -11,9 +11,9 @@ var zipcode = "98105";
 var options = {
     host: 'api.indeed.com',
     path: '/ads/apisearch?publisher=9876703242051712'
-        + '&q='
+        + '&q=great'
         + '&l=' + zipcode
-        + '&sort=&radius=1&st=&jt=&start='
+        + '&sort=&radius=1&st=&jt=fulltime&start='
         + '&limit=1000'
         + '&fromage=&filter=&latlong=1&co=us'
         + '&chnl=&userip=1.2.3.4&useragent=Mozilla/%2F4.0%28Firefox%29'
@@ -44,6 +44,15 @@ callback = function(response) {
             var totalRes = JSONObject.response.totalresults[0];
             console.log("Total Jobs in zipcode " + zipcode + ": " + totalRes);
             // Can also possibly show a map (data structure) of companies/openings
+            var jobsArray = JSONObject.response.results[0].result;
+            for(var i = 0; i < jobsArray.length; i++) {
+                var companyName = jobsArray[i].company[0];
+                var jobTitle = jobsArray[i].jobtitle[0];
+                console.log("Company: " + companyName);
+                console.log("Title: " + jobTitle + "\n\n");
+            }
+            //print blob
+            console.log(JSON.stringify(jobsArray));
         });
     });
 }
