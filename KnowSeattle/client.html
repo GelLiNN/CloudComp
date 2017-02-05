@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8">
+    <title>Jobs and Companies!</title>
+    <style>
+        #output {
+            width: 80%;
+            background-color: #25529b;
+            padding: 15px;
+            border-radius: 15px;
+            border: 2px dotted black;
+            margin-left: auto;
+            margin-right: auto;
+            text-align: center;
+        }
+        #indeed_frame {
+            float: right;
+            height: 50px;
+        }
+        .control, h1 {
+            font-size: 14pt;
+            font-family: Verdana, serif;
+            margin-top: 10px;
+            margin-right: 10px;
+        }
+    </style>
+
+    <!--Relevant JS libraries-->
+    <script src="https://code.jquery.com/jquery-2.1.4.js" type="text/javascript"></script>
+    <script type="text/javascript">
+
+        /* CORS-anywhere code */
+        var cors_api_url = 'https://cors-anywhere.herokuapp.com/';
+        function doCORSRequest(options, printResult) {
+            var x = new XMLHttpRequest();
+            x.open(options.method, cors_api_url + options.url);
+            x.onload = x.onerror = function() {
+                printResult(
+                    options.method + ' ' + options.url + '\n' +
+                        x.status + ' ' + x.statusText + '\n\n' +
+                        (x.responseText || '')
+                );
+            };
+
+            if (/^POST/i.test(options.method)) {
+                x.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+            }
+            x.send(options.data);
+        }
+        if (typeof console === 'object') {
+            console.log('// To test a local CORS Anywhere server, set cors_api_url. For example:');
+            console.log('cors_api_url = "http://localhost:8080/"');
+        }
+
+        //Called from Tile Info button
+        function getTileInfo() {
+            doCORSRequest({
+                method: 'GET',
+                url: "http://api.indeed.com/ads/apisearch?publisher=9876703242051712&q=java&l=austin%2C+tx&sort=&radius=&st=&jt=&start=&limit=&fromage=&filter=&latlong=1&co=us&chnl=&userip=1.2.3.4&useragent=Mozilla/%2F4.0%28Firefox%29&v=2",
+                data: ""
+            }, function printResult(result) {
+                document.getElementById('output').innerHTML = result;
+            });
+
+            /* I still need code from below
+            
+            // vars for Indeed API
+            var zipcode = document.getElementById('zip').value;
+            var job_radius_miles = 1;
+            var indeed_publisher_id = "9876703242051712";
+            var indeed_query = "great";
+            var indeed_limit = 1000;
+
+            // vars for Glassdoor API
+            var glassdoor_partner_id = "114236";
+            var glassdoor_key = "j1ERnurd9SI";
+            var company_for_glassdoor = "";
+
+            $.ajax({
+                // Docs for Indeed API: https://ads.indeed.com/jobroll/xmlfeed
+                url: "http://api.indeed.com/ads/apisearch",
+                type: "GET",
+                data: {
+                    "$q" : indeed_query,
+                    "$l" : zipcode,
+                    "$sort" : "",
+                    "$radius" : job_radius_miles,
+                    "$st" : "",
+                    "$jt" : "fulltime",
+                    "$start" : "",
+                    "$limit" : indeed_limit,
+                    "$fromage" : "",
+                    "$filter" : "",
+                    "$latlong" : 1,
+                    "$co" : "us",
+                    "$chnl" : "",
+                    "$userip" : "1.2.3.4",
+                    "$useragent" : "Mozilla/%2F4.0%28Firefox%29",
+                    "$v" : 2
+                }
+            }).done(function(data) {
+                console.log(data);
+                document.getElementById('main').innerHTML = "<h2>JSON BLOB</h2>"
+                    + JSON.stringify(data);
+
+                $(data).each(function(index, value) {
+                    // count the ratings and find average company rating
+                });
+            });
+            */
+        }
+    </script>
+</head>
+<body>
+    <input type="text" id="zip" size="20" placeholder="zipcode" class="control"/>
+    <button onclick="getTileInfo()" class="control">Get Tile Info!</button>
+    <button onclick="getDetailJSON()" class="control">Get Detail Page JSON!</button>
+    <h1>Results from queries will go here:</h1>
+    <div id="output"></div>
+</body>
+</html>

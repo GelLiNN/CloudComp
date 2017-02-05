@@ -18,7 +18,7 @@ if (process.argv.indexOf("-z") != -1){ //does our flag exist?
 }
 
 //query for narrowing down better results
-var query = "great";
+var query = "";
 
 var options = {
     host: 'api.indeed.com',

@@ -46,6 +46,7 @@ callback = function(response) {
     //the whole response has been recieved, so we just print it out here
     response.on('end', function () {
         console.log("Job Title: " + title);
+        console.log("Company Name: " + company);
         console.log(company + " Details:");
         var JSONObject = JSON.parse(str);
 
@@ -60,11 +61,14 @@ callback = function(response) {
             console.log("    Overall Rating: " + bestMatchObj.overallRating + " "
                 + bestMatchObj.ratingDescription);
         } catch (err) {
+            /*
+            console.log('==== E R R O R =====================');
             console.log('ERROR getting company details for ' + company + ':\n');
             console.error(err);
             console.log('JSON blob:\n' + str + '\n'
                 + 'Query: ' + path
                 + '\n==== E N D ==== E R R O R ==========');
+                */
         }
     });
 }
