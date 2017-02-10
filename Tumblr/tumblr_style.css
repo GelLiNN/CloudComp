@@ -1,4 +1,5 @@
 /*
+Hosted: https://kellan.000webhostapp.com/css/tumblr_style.css
 Stylesheet for gellinnk.tumblr.com
 */
 html{color:#000;background:#FFF;}
@@ -163,11 +164,11 @@ body{
 	width:40px;
 	height:40px;
 	display:block;
-	background-color:rgba(255,255,255, .15);	
+	background-color:rgba(255,255,255, .15);
 }
 .post .icon a:hover,
 .entry .icon a:hover{
-	background-color:rgba(255,255,255, .3);	
+	background-color:rgba(255,255,255, .3);
 }
 .post .icon a.permalink,
 .entry .icon a.permalink{
@@ -221,9 +222,9 @@ body{
 }
 .post .caption h3 a:hover,
 .entry .caption h3 a:hover{
-	filter:alpha(opacity=50); 
-	-moz-opacity: 0.5; 
-	opacity: 0.5;	
+	filter:alpha(opacity=50);
+	-moz-opacity: 0.5;
+	opacity: 0.5;
 }
 .entry .caption p,
 .post .caption p{
@@ -309,7 +310,7 @@ body{
 /* photo post specific css */
 
 .photo{
-	background-color:#90deec;	
+	background-color:#90deec;
 }
 .photo .icon .permalink{
 	background-image:url('http://static.tumblr.com/xhpdxdi/7tOkinelf/camera_icon.png');
@@ -337,7 +338,7 @@ body{
 	background-color:#bb225a;
 }
 .video .icon .permalink{
-	background-image:url('http://static.tumblr.com/xhpdxdi/Hjmkinf01/video_icon.png');	
+	background-image:url('http://static.tumblr.com/xhpdxdi/Hjmkinf01/video_icon.png');
 }
 
 /* link post specific css */
@@ -475,13 +476,13 @@ body{
 }
 #lightboxDetails{
 
-}	
+}
 #lightboxCaption{ float: left; }
 #keyboardMsg{ float: right; }
 
 #lightbox img{
 	-webkit-box-shadow: 2px 2px 2px #bbbbbb;
-} 
+}
 #overlay img{ border: none; }
 #overlay{
 	background-color:#f0f0f0;
@@ -499,3 +500,38 @@ body{
 	color:#aaaaaa;
 }
 /* END LIGHTBOX */
+
+/* Custom Additions */
+#right {
+	width: 250px;
+	height: auto;
+	background-color: gray;
+	border-radius: 5px;
+	border: inset 5px #4dd2ff;
+	margin: 10px;
+	padding: 15px;
+	opacity: .7;
+}
+
+#searchfield {
+	font-family: Helvetica;
+	background-color: black;
+	color: white;
+	text-shadow: 1px 0px white;
+	width: 100%;
+	text-align: center;
+	font-weight: bold;
+	letter-spacing: 3px;
+	height:20px;
+}
+
+a:hover {
+	padding: 5px;
+	background-color: #cce7ff;
+	border-radius: 10px;
+	color: white;
+	box-shadow: 0px 0px 15px black;
+	transition-duration: .75s;
+	-webkit-transition-duration: 0.75s; /* Safari */
+	text-decoration: none;
+}
